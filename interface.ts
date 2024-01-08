@@ -195,5 +195,168 @@ const projects: DepartmentProjects = {
   }
   
 
-  
+// 9 urok 
+const getData = async () =>{
+  return fetch('https://jsonplaceholder.typicode.com/posts/1')
+  // .then(response =>{
+  //   return response.json()
+  // })
+  // .then(data =>{
+  //   console.log(data)
+  // })
+}
+type TUser = {
+  userId: number,
+  id: number,
+  body: string,
+  title: string
+}
 
+const myPromise = async (success) =>{
+  let user: TUser = await (await getData()).json()
+  return new Promise((resolve, reject) => {
+    setTimeout(()=>{
+      if(success){
+        resolve(user)
+      }
+      else{
+        reject(new Error('произошла ошибка'))
+      }
+    },1000)
+    
+  })
+} 
+const checkPromise = async () =>{
+  let user = await myPromise(true) as TUser
+    // .then(Response =>{
+    //   console.log(Response)
+    // })
+    // .catch(error =>{
+    //   console.log(error)
+    // })
+    // .finally(()=>{
+    //   console.log('работа промис завершена')
+    // })
+
+console.log(user)
+}
+checkPromise().catch((error) =>{
+  console.log(error)
+})
+
+
+type Tuser = {
+  postId: number,
+  id: number,
+  name: string,
+  email: string,
+  body: string
+}
+
+const GetData = async () =>{
+  return fetch('https://jsonplaceholder.typicode.com/posts/1/comments')
+}
+const getResult = async () =>{
+  let data:Tuser[] = await (await getData()).json()
+  return data
+}
+const findUser = async () =>{
+  let users:Tuser[] = await getResult()
+  let userBody:Tuser | null = null
+  users.forEach(user =>{
+    if(!userBody || userBody.body.length < user.body.length){
+      userBody = {...user}
+    }
+  })
+  return userBody
+
+}
+
+findUser()
+.then((data) =>{
+console.log(data)
+})
+.catch((error)=>{
+console.log(error)
+})
+
+
+// dz
+
+let arrayWorker = 
+[
+  {
+    "name": "Rina",
+    "age": 58,
+    "isActive": true,
+    "sallary": "70000"
+  },
+  {
+    "name": "Kathryn",
+    "age": 25,
+    "isActive": false,
+    "sallary": "130045"
+  },
+  {
+    "name": "Wilfred",
+    "age": 17,
+    "isActive": true,
+    "sallary": "100000"
+  },
+  {
+    "name": "Genna",
+    "age": 26,
+    "isActive": true,
+    "sallary": "122300"
+  },
+  {
+    "name": "Celle",
+    "age": 25,
+    "isActive": true,
+    "sallary": "120540"
+  },
+  {
+    "name": "Torre",
+    "age": 24,
+    "isActive": false,
+    "sallary": "210320"
+  },
+  {
+    "name": "Amerigo",
+    "age": 46,
+    "isActive": false,
+    "sallary": "210340"
+  },
+  {
+    "name": "Shayne",
+    "age": 11,
+    "isActive": true,
+    "sallary": "210400"
+  },
+  {
+    "name": "Darline",
+    "age": 32,
+    "isActive": false,
+    "sallary": "450000"
+  },
+  {
+    "name": "Rourke",
+    "age": 64,
+    "isActive": false,
+    "sallary": "1200000"
+  }
+];
+
+
+arrayWorker = arrayWorker.map(item => ({
+  ...item,
+  sallary: item.isActive ? (parseInt(item.sallary) * 1.1).toString() : item.sallary
+}));
+console.log(arrayWorker);
+
+// arrayWorker = arrayWorker.map((item =>{
+//   if(item.isActive){
+//     item.sallary = (item.sallary * 1.1).toString()
+//   }
+//   return item
+// }))
